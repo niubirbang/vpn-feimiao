@@ -1,0 +1,130 @@
+:root {
+  --window-background: #1B1B27;
+}
+
+.el-input.no-shadow .el-input__wrapper {
+  box-shadow: unset;
+}
+
+.el-input.large-padding .el-input__wrapper {
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+.el-dialog {
+  --el-dialog-border-radius: 1rem;
+}
+
+.white.el-dialog {
+  --el-dialog-bg-color: var(--el-color-white);
+  color: var(--el-color-black);
+}
+
+.white.el-dialog .el-dialog__header {
+  color: var(--el-color-black);
+}
+
+.white.el-dialog .el-dialog__body {
+  color: var(--el-color-black);
+}
+
+.no-header .el-dialog__header {
+  display: none;
+}
+
+.el-notification.center {
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+}
+
+.el-message.notification-message {
+  width: 80%;
+}
+
+.el-message--error {
+  --el-message-text-color: var(--el-message-text-error-color);
+}
+
+.el-message--success {
+  --el-message-text-color: var(--el-message-text-success-color);
+}
+
+.el-message--warning {
+  --el-message-text-color: var(--el-message-text-warning-color);
+}
+
+.el-message--info {
+  --el-message-text-color: var(--el-message-text-info-color);
+}
+
+.el-message.bottom {
+  top: unset !important;
+  bottom: 16px;
+}
+
+.el-overlay {
+  border-radius: var(--window-border-radius);
+}
+
+.el-loading-mask.is-fullscreen {
+  border-radius: var(--window-border-radius);
+}
+
+.el-divider.empty {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+.header-no-margin .el-drawer__header {
+  margin: 0;
+}
+
+html {
+  --el-text-color-primary: #000;
+  --el-color-primary: #FFA622;
+  --el-color-primary-light-3: #ffc164;
+  --el-color-primary-light-5: #ffd391;
+  --el-color-primary-light-7: #ffe4bd;
+  --el-color-primary-light-8: #ffedd3;
+  --el-color-primary-light-9: #fff6e9;
+  --el-color-primary-dark-2: #cc851b;
+
+  --el-message-text-error-color: #000;
+  --el-message-text-success-color: #000;
+  --el-message-text-warning-color: #000;
+  --el-message-text-info-color: #000;
+}
+
+html.dark {
+  --el-text-color-primary: #FFF;
+  --el-color-primary: #FFA622;
+  --el-color-primary-light-3: #ffc164;
+  --el-color-primary-light-5: #ffd391;
+  --el-color-primary-light-7: #ffe4bd;
+  --el-color-primary-light-8: #ffedd3;
+  --el-color-primary-light-9: #fff6e9;
+  --el-color-primary-dark-2: #cc851b;
+
+  --el-message-text-error-color: #FFF;
+  --el-message-text-success-color: #FFF;
+  --el-message-text-warning-color: #FFF;
+  --el-message-text-info-color: #FFF;
+}
+
+
+/* crisp */
+#crisp-chatbox>div:first-of-type>div:first-of-type {
+  height: calc(100% - var(--van-nav-bar-height) - 10px) !important;
+  border-radius: var(--window-border-radius) !important;
+}
+
+#crisp-chatbox>div:first-of-type>a:first-of-type {
+  display: none !important;
+}
+
+.no-data {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
