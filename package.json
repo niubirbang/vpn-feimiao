@@ -10,7 +10,7 @@
     "更新优化线路",
     "更新UI展示"
   ],
-  "updater_server": "http://43.199.34.5:8999",
+  "updater_server": "http://47.83.183.124:8080",
   "description": "",
   "main": "index.js",
   "core_config": {
