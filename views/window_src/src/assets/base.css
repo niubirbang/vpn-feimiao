@@ -1,0 +1,178 @@
+:root {
+  --window-border-radius: 10px;
+  --navbar-height: 2.2rem;
+  --page-padding: 1rem;
+}
+
+html {
+  height: calc(100% - 2px);
+  width: calc(100% - 2px);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+
+  user-select: none;
+  border-radius: var(--window-border-radius);
+  font-family: PingFang SC;
+  background: rgba(0, 0, 0, 0);
+
+  font-size: 14px;
+}
+
+body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+
+  user-select: none;
+  border-radius: var(--window-border-radius);
+  background: rgba(0, 0, 0, 0);
+}
+
+#app {
+  height: 100%;
+  width: 100%;
+
+  user-select: none;
+  border-radius: var(--window-border-radius);
+}
+
+#container {
+  height: 100%;
+  width: 100%;
+  border-radius: var(--window-border-radius);
+  background: var(--window-background);
+}
+
+#container:has(.invite-bg) {
+  background: url("@/assets/image/invite-bg.png") no-repeat, #ffcd85;
+  background-size: 100% auto;
+}
+
+#container:has(.vip-bg) {
+  background: url("@/assets/image/vip-bg.png") no-repeat, #ffcd85;
+  background-size: 100% 14rem;
+  background-position-y: 0rem;
+  background-color: var(--window-background);
+}
+
+#container:has(.svip-bg) {
+  background: url("@/assets/image/svip-bg.png") no-repeat, #ffcd85;
+  background-size: 100% 14rem;
+  background-position-y: 0rem;
+  background-color: var(--window-background);
+}
+
+#container:has(.home-bg) {
+  background: #232331;
+  background-size: 100% auto;
+}
+
+#navbar {
+  --el-header-height: unset;
+  padding: 0;
+}
+
+#tabbar {
+  background: #232331;
+  border-radius: var(--window-border-radius);
+  --el-footer-height: unset;
+  padding: 0;
+}
+
+.page {
+  min-height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+  padding: var(--page-padding);
+  padding-top: 0.28rem;
+  overflow: auto;
+}
+
+.full {
+  height: 100%;
+  padding: 0;
+}
+
+.large-full {
+  padding: 0;
+  margin-top: calc(-1 * var(--navbar-height));
+  padding-top: var(--navbar-height);
+  height: calc(100% + var(--navbar-height));
+}
+
+.webview {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.webview-page {
+  width: 100%;
+  height: 100%;
+  border-bottom-left-radius: var(--window-border-radius);
+  border-bottom-right-radius: var(--window-border-radius);
+  overflow-y: hidden;
+}
+
+.drag {
+  -webkit-app-region: drag;
+}
+
+.no-drag {
+  -webkit-app-region: no-drag;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.underline {
+  text-decoration: underline;
+}
+
+p {
+  margin: 0;
+  padding: 0;
+  line-height: 14px;
+}
+
+a:-webkit-any-link {
+  color: unset;
+  cursor: pointer;
+  text-decoration: unset;
+}
+
+iframe {
+  border: unset;
+  border-width: 0;
+  border-style: inset;
+  border-color: initial;
+  border-image: initial;
+  overflow: hidden;
+}
+
+/* 滚动条相关 */
+::-webkit-scrollbar {
+  /* width: 6px; */
+  width: 0;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--el-color-info-light-8);
+  border-radius: 10px;
+  transition: all .2s ease-in-out;
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 10px;
+}
+
+*:has(.page.el-fade-in-leave-active)::-webkit-scrollbar {
+  display: none !important;
+}
+
+*:has(.page.el-fade-in-enter-active)::-webkit-scrollbar {
+  display: none !important;
+}
