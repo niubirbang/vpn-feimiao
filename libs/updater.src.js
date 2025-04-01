@@ -46,7 +46,7 @@ const initialize_updater = async () => {
       api = dev_updater_server
     }
 
-    console.error('updater', 'api use:', api)
+    console.info('updater', 'api use:', api)
 
     const apiURL = new URL(api)
 
