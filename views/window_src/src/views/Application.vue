@@ -1,10 +1,11 @@
 <script setup>
 import { ref, onBeforeMount, onMounted } from "vue";
 import { useRoute } from "vue-router";
+import { useStore } from "vuex";
 
 const route = useRoute();
+const store = useStore();
 const html = ref(null);
-const url = ref("https://apps.fe.cool/app/#/");
 
 onBeforeMount(() => {
   const now = new Date();
@@ -14,7 +15,7 @@ onBeforeMount(() => {
   const day = now.getDate();
   const hour = now.getHours();
 
-  html.value = `<webview id="webview" class="webview-page" src="${url.value}" partition="${year}-${month}-${day}-${hour}"></webview>`;
+  html.value = `<webview id="webview" class="webview-page" src="${store.state.third_application_url}" partition="${year}-${month}-${day}-${hour}"></webview>`;
 });
 
 const iframe = ref(null);

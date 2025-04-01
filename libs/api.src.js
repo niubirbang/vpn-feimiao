@@ -1245,6 +1245,7 @@ const load_third_page_urls = () => {
       third_pages['service_policy'] = data['xieyi']
       third_pages['privacy_policy'] = data['yinsi']
       third_pages['logout_policy'] = data['zhuxiao']
+      third_pages['application_url'] = data['app_application']
       third_pages['contact_email'] = data['contact_email']
       third_pages['website'] = data['website']
     } catch (err) {

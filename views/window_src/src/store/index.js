@@ -81,6 +81,7 @@ const store = createStore({
     third_service_policy: null,
     third_privacy_policy: null,
     third_logout_policy: null,
+    third_application_url: null,
     contact_email: null,
     website: null,
   },
@@ -257,6 +258,7 @@ const store = createStore({
         state.third_service_policy = info?.service_policy
         state.third_privacy_policy = info?.privacy_policy
         state.third_logout_policy = info?.logout_policy
+        state.third_application_url = info?.application_url
         state.contact_email = info?.contact_email
         state.website = info?.website
       }
