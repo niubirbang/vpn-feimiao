@@ -15,7 +15,6 @@ const checkShow = () => {
   window.box_api
     .getInternationalUrl()
     .then((data) => {
-      console.log(data);
       if (data && data?.url && data?.content) {
         internationalUrl.value = data.url;
         internationalTxt.value = data.content;

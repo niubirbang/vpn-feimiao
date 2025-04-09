@@ -75,6 +75,7 @@ contextBridge.exposeInMainWorld('box_api', {
   thirdPageURLs: (...args) => invoke('api.third_page_urls', ...args),
   loadThirdPageURLs: (...args) => invoke('api.load_third_page_urls', ...args),
   getInternationalUrl: (...args) => invoke('api.get_international_url', ...args),
+  listBanner: (...args) => invoke('api.list_banner', ...args),
 
   listenVersion: (cb) => on('api.version.listen', cb),
   listenAuthorization: (cb) => on('api.authorization.listen', cb),

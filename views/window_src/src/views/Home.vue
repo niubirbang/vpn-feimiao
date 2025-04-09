@@ -1,9 +1,10 @@
 <script setup>
 import Tip from "@/components/custom/Tip.vue";
+import Banner from "@/components/custom/Banner.vue";
 import FreeExpiredAt from "@/components/custom/FreeExpiredAt.vue";
 import ProxySwitchV2 from "@/components/proxy/SwitchV2.vue";
 import ProxyCurrent from "@/components/proxy/Current.vue";
-import { IconMessage, IconTip, IconInviteColorful } from "@/util/assets";
+import { IconMessage, IconTip } from "@/util/assets";
 import { useStore } from "vuex";
 import { computed } from "vue";
 
@@ -14,7 +15,12 @@ const channelHiddenNodes = computed(() => store.state.channel_hidden_nodes);
 
 <template>
   <div class="large-full home-bg">
-    <div class="plate">
+    <div class="plate home">
+      <img
+        class="invite pointer"
+        src="@/assets/image/invite-btn.png"
+        v-navigate="'/invite'"
+      />
       <!-- 头部 -->
       <div class="header">
         <div class="left">
@@ -23,13 +29,14 @@ const channelHiddenNodes = computed(() => store.state.channel_hidden_nodes);
         </div>
         <div class="right">
           <img
-            class="invite pointer"
-            :src="IconInviteColorful"
-            v-navigate="'/invite'"
+            class="application pointer"
+            src="@/assets/image/application-btn.png"
+            v-navigate="'/application'"
           />
         </div>
       </div>
       <Tip />
+      <Banner />
       <div class="proxy">
         <ProxySwitchV2 />
       </div>
@@ -56,20 +63,27 @@ const channelHiddenNodes = computed(() => store.state.channel_hidden_nodes);
 
 <style scoped>
 .page {
-  background: var(--window-background);
   display: flex;
   flex-direction: column;
   gap: 1rem;
 }
 .plate {
   border-radius: 0 0 1.5rem 1.5rem;
-  background: #232331;
+  background: rgba(44, 45, 56, 0.52);
   padding: var(--page-padding);
   padding-top: 0;
-  padding-bottom: 4rem;
+  padding-bottom: 2rem;
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 1rem;
+  position: relative;
+}
+.invite {
+  width: 4rem;
+  height: auto;
+  position: absolute;
+  right: var(--page-padding);
+  bottom: var(--page-padding);
 }
 .header {
   box-sizing: border-box;
@@ -82,11 +96,16 @@ const channelHiddenNodes = computed(() => store.state.channel_hidden_nodes);
   align-items: center;
   gap: 1rem;
 }
+.header .right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
 .header .icon {
   height: 1.5rem;
   width: auto;
 }
-.header .invite {
+.header .application {
   height: 2.5rem;
   width: auto;
 }

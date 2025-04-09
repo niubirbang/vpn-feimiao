@@ -14,13 +14,19 @@ onBeforeMount(() => {
   const month = now.getMonth() + 1;
   const day = now.getDate();
   const hour = now.getHours();
-
+  console.info("application use url:", store.state.third_application_url);
   html.value = `<webview id="webview" class="webview-page" src="${store.state.third_application_url}" partition="${year}-${month}-${day}-${hour}"></webview>`;
 });
 
 const iframe = ref(null);
 const iframeUrl = ref(null);
 const iframeLoaded = ref(false);
+
+onMounted(() => {
+  const currentTimestampMs = Date.now();
+  const currentTimestampSeconds = Math.floor(currentTimestampMs / 1000);
+  localStorage.setItem("APPLICATION_READ_AT", currentTimestampSeconds);
+});
 
 // onMounted(() => {
 //   const loading = ElLoading.service({
@@ -57,7 +63,7 @@ const iframeLoaded = ref(false);
 .webview ::-webkit-scrollbar-thumb {
   background-color: var(--el-color-info-light-8);
   border-radius: 10px;
-  transition: all .2s ease-in-out;
+  transition: all 0.2s ease-in-out;
 }
 
 .webview ::-webkit-scrollbar-track {

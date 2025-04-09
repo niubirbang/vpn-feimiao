@@ -668,6 +668,9 @@ const initialize_ipc = () => {
   registeIPCHandle('api.get_international_url', (e, ...v) => {
     return get_international_url(...v)
   })
+  registeIPCHandle('api.list_banner', (e, ...v) => {
+    return list_banner(...v)
+  })
 }
 // ----------init----------
 
@@ -1128,6 +1131,12 @@ const get_international_url = () => {
   return api.request({
     method: 'POST',
     url: '/getInternationalUrl',
+  })
+}
+const list_banner = () => {
+  return api.request({
+    method: 'POST',
+    url: '/getBanner',
   })
 }
 let linsten_order_status_task = null

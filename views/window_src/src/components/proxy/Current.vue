@@ -64,6 +64,7 @@ const currentNodeStatus = computed(() => {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  border: 1px solid #fa8a25;
 }
 .box .title {
   font-size: 1rem;

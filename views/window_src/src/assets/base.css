@@ -43,6 +43,13 @@ body {
   background: var(--window-background);
 }
 
+#container:has(.home-bg) {
+  background: url("@/assets/image/home-bg.png") no-repeat, #232331;
+  background-size: 100% auto;
+  background-position-y: 0rem;
+  background-color: var(--window-background);
+}
+
 #container:has(.invite-bg) {
   background: url("@/assets/image/invite-bg.png") no-repeat, #ffcd85;
   background-size: 100% auto;
@@ -62,10 +69,6 @@ body {
   background-color: var(--window-background);
 }
 
-#container:has(.home-bg) {
-  background: #232331;
-  background-size: 100% auto;
-}
 
 #navbar {
   --el-header-height: unset;

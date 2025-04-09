@@ -51,7 +51,6 @@ const nodeDelay = computed(() => {
     if (!delaies.value) {
       return null;
     }
-    console.log(delaies.value);
     return delaies.value[node.url];
   };
 });
