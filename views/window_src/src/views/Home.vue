@@ -72,7 +72,7 @@ const channelHiddenNodes = computed(() => store.state.channel_hidden_nodes);
   background: rgba(44, 45, 56, 0.52);
   padding: var(--page-padding);
   padding-top: 0;
-  padding-bottom: 2rem;
+  padding-bottom: 1rem;
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -127,6 +127,6 @@ const channelHiddenNodes = computed(() => store.state.channel_hidden_nodes);
 .remark {
   text-align: center;
   font-size: 1.1rem;
-  line-height: 1.1rem;
+  line-height: 1.6rem;
 }
 </style>

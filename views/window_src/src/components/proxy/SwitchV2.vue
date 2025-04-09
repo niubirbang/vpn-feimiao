@@ -152,7 +152,7 @@ const err_is_core_expired_at_is_empty = (err) => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2rem;
+  gap: 1rem;
 }
 .proxy-status {
   box-sizing: border-box;
