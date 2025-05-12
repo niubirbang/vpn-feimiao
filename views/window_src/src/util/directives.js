@@ -142,6 +142,12 @@ export const ShowPrivacyPolicy = () => {
   })
 }
 
+export const ShowTelegram = () => {
+  window.box_system.openURL(store.state.third_telegram).catch((err) => {
+    Error(err)
+  });
+}
+
 export const ShowLogoutPolicy = () => {
   window.box_system.openWindow(store.state.third_logout_policy, {
     width: 1000,

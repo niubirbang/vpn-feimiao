@@ -6,8 +6,8 @@ import { ElLoading } from 'element-plus'
 import { Error } from '@/notification'
 import { USER_LEVEL_FREE, USER_LEVEL_VIP, USER_LEVEL_SVIP } from '@/store'
 import { $DateFormat, $DateTimeFormat } from '@/util'
-import { ShowService, ShowServicePolicy, ShowPrivacyPolicy, Confirm } from '@/util/directives'
-import { IconBind, IconService, IconInvite, IconBindInvite, IconServicePolicy, IconPrivacyPolicy, IconAboutUs, IconClose, IconFresh, IconOption, Avatar, UserFree } from '@/util/assets'
+import { ShowService, ShowServicePolicy, ShowPrivacyPolicy, ShowTelegram, Confirm } from '@/util/directives'
+import { IconBind, IconService, IconInvite, IconBindInvite, IconServicePolicy, IconPrivacyPolicy,IconTelegram,  IconAboutUs, IconClose, IconFresh, IconOption, Avatar, UserFree } from '@/util/assets'
 
 const router = useRouter()
 const store = useStore()
@@ -76,6 +76,13 @@ const options = computed(() => {
       icon: IconBindInvite,
       do: () => {
         router.push('/bind_invite')
+      },
+    },
+    {
+      name: '防丢入口',
+      icon: IconTelegram,
+      do: () => {
+        ShowTelegram()
       },
     },
     {

@@ -17,6 +17,7 @@ import IconInvite from '@/assets/image/icon/invite.png'
 import IconBindInvite from '@/assets/image/icon/bind-invite.png'
 import IconServicePolicy from '@/assets/image/icon/service-policy.png'
 import IconPrivacyPolicy from '@/assets/image/icon/privacy-policy.png'
+import IconTelegram from '@/assets/image/icon/telegram.png'
 import IconAboutUs from '@/assets/image/icon/about-us.png'
 import IconClose from '@/assets/image/icon/close.png'
 import IconFresh from '@/assets/image/icon/fresh.png'
@@ -70,6 +71,7 @@ export {
   IconBindInvite,
   IconServicePolicy,
   IconPrivacyPolicy,
+  IconTelegram,
   IconAboutUs,
   IconClose,
   IconFresh,

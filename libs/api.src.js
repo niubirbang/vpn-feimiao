@@ -1231,6 +1231,7 @@ const load_third_page_urls = () => {
         method: 'POST',
         url: '/myLink',
       })
+      console.log('mylink:', data)
       let service = null
       if (data['kefu']) {
         service = {
@@ -1257,6 +1258,10 @@ const load_third_page_urls = () => {
       third_pages['application_url'] = data['app_application']
       third_pages['contact_email'] = data['contact_email']
       third_pages['website'] = data['website']
+      third_pages['telegram'] = data['telegram']
+      if (!third_pages['telegram']) {
+        third_pages['telegram'] = 'https://t.me/feimiaoyijia'
+      }
     } catch (err) {
       console.error('api', 'get third page urls failed:', err?.message)
     }
