@@ -5,58 +5,40 @@ import { useStore } from "vuex";
 
 const route = useRoute();
 const store = useStore();
-const html = ref(null);
+const mywebview = ref(null);
 
-onBeforeMount(() => {
+const loadURL = (url) => {
   const now = new Date();
-
   const year = now.getFullYear();
   const month = now.getMonth() + 1;
   const day = now.getDate();
   const hour = now.getHours();
   console.info("application use url:", store.state.third_application_url);
-  html.value = `<webview id="webview" class="webview-page" src="${store.state.third_application_url}" partition="${year}-${month}-${day}-${hour}"></webview>`;
-});
-
-const iframe = ref(null);
-const iframeUrl = ref(null);
-const iframeLoaded = ref(false);
+  if (mywebview) {
+    mywebview.value.partition = `${year}-${month}-${day}-${hour}`;
+    mywebview.value.src = url;
+  }
+};
 
 onMounted(() => {
   const currentTimestampMs = Date.now();
   const currentTimestampSeconds = Math.floor(currentTimestampMs / 1000);
   localStorage.setItem("APPLICATION_READ_AT", currentTimestampSeconds);
+  loadURL(store.state.third_application_url);
 });
-
-// onMounted(() => {
-//   const loading = ElLoading.service({
-//     lock: true,
-//     background: 'rgba(0, 0, 0, 0.7)',
-//   })
-
-//   if (route.query.url) {
-//     iframeUrl.value = route.query.url
-//     iframe.value.onload = () => {
-//       iframeLoaded.value = true
-//       loading.close()
-//     }
-//   }
-//   setTimeout(() => {
-//     loading.close()
-//   }, 5000)
-// })
 </script>
 
 <template>
   <div class="full">
-    <div class="webview" v-html="html"></div>
+    <div class="webview">
+      <webview ref="mywebview" class="webview-page" allowpopups />
+    </div>
   </div>
 </template>
 
 
 <style scoped>
 .webview ::-webkit-scrollbar {
-  /* width: 6px; */
   width: 0;
 }
 
