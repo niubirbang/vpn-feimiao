@@ -215,6 +215,10 @@ const submit = () => {
 };
 
 const login_by_device = () => {
+  if (authorization_type.value) {
+    router.back();
+    return;
+  }
   submiting.value = true;
   const loading = ElLoading.service({
     lock: true,
@@ -388,18 +392,14 @@ onMounted(() => {
           >密码登录</el-button
         >
       </div>
-      <div class="item center" v-if="!authorization_type">
+      <div class="item center">
         <div class="otherway">
           <div class="line"></div>
           <p class="">其他方式</p>
           <div class="line"></div>
         </div>
       </div>
-      <div
-        class="item center"
-        v-if="!authorization_type"
-        @click="login_by_device"
-      >
+      <div class="item center" @click="login_by_device">
         <p class="device-login pointer">游客登录 ></p>
       </div>
     </div>

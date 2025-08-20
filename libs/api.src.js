@@ -242,7 +242,8 @@ const initialize_authorization = async () => {
   if (tmp.authorization_type) {
     await set_authorization(tmp)
   } else {
-    await clear_authorization()
+    await login_by_device()
+    // await clear_authorization()
   }
 }
 const clear_authorization = async (reason) => {
