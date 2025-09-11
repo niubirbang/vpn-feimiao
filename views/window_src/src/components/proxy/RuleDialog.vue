@@ -79,7 +79,7 @@ const change = (r) => {
 }
 .selector {
   color: #fff;
-  background: #2d2d3c;
+  background: #18181B;
   border-radius: 1rem;
   width: 100%;
   height: 5rem;

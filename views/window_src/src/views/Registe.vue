@@ -276,7 +276,7 @@ onMounted(() => {
   font-size: 2rem;
 }
 .content {
-  background: #232331;
+  background: #26272B;
   border-top-left-radius: 1.5rem;
   border-top-right-radius: 1.5rem;
   border-bottom-left-radius: var(--window-border-radius);
@@ -323,7 +323,7 @@ onMounted(() => {
 .content .el-input {
   height: 4.5rem;
   width: 100%;
-  --el-input-bg-color: #2d2d3c;
+  --el-input-bg-color: #18181B;
   --el-input-border-radius: 1.5rem;
   --el-input-placeholder-color: #60606c;
 }

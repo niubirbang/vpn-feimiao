@@ -36,17 +36,17 @@ const currentNodeStatus = computed(() => {
 
 <template>
   <div v-if="!channelHiddenNodes" class="box pointer" v-navigate="'/node'">
-    <p class="title">选择线路</p>
     <div class="current-proxy">
       <!-- TODO ICON -->
       <div class="left">
+        <p class="title">选择线路</p>
         <p class="node country-emoji">{{ currentNodeName }}</p>
       </div>
       <div class="right">
         <!-- <p class="status" v-if="currentNodeStatus === 'LOADING'">测试中</p>
         <p class="status" v-if="currentNodeStatus === 'SMOOTH'">流畅</p>
         <p class="status danger" v-if="currentNodeStatus === 'UNAVAILABLE'">线路不可用</p> -->
-        <el-icon>
+        <el-icon color="var(--el-color-info)">
           <ArrowRight />
         </el-icon>
       </div>
@@ -59,15 +59,16 @@ const currentNodeStatus = computed(() => {
   box-sizing: border-box;
   margin: var(--page-padding);
   padding: 1.5rem;
-  background: #232331;
+  background: #26272B;
   border-radius: 1.5rem;
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  border: 1px solid #fa8a25;
+  /* border: 1px solid #fa8a25; */
 }
 .box .title {
   font-size: 1rem;
+  color: var(--el-color-info);
 }
 .current-proxy {
   display: flex;
@@ -78,9 +79,10 @@ const currentNodeStatus = computed(() => {
 }
 .current-proxy .left {
   display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 0.5rem;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 1rem;
 }
 .current-proxy .right {
   display: flex;

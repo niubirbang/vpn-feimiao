@@ -295,7 +295,7 @@ onMounted(() => {
   border-radius: 3.6rem;
   box-sizing: border-box;
   padding: 1rem;
-  background: #2d2d3c;
+  background: #26272B;
   display: flex;
   align-items: center;
   justify-content: space-around;
@@ -348,7 +348,7 @@ onMounted(() => {
 }
 .node {
   color: var(--el-text-color-primary);
-  background: #232331;
+  background: #26272B;
 }
 .node.selected {
   border: 1px solid #fd9300;
@@ -362,7 +362,7 @@ onMounted(() => {
 }
 /* .node.free {
   color: var(--el-text-color-primary);
-  background: #232331;
+  background: #26272B;
   border: 1px solid #fd9300;
 }
 .node.vip {

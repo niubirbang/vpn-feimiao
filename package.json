@@ -26,7 +26,7 @@
     "icons:win": "electron-icon-builder --input=./icons/win.png --output=./ --flatten && npm run icons:tray && npm run icons:window",
     "icons:mac": "electron-icon-builder --input=./icons/mac.png --output=./ --flatten && npm run icons:tray && npm run icons:window",
     "install:view:window": "cd ./views/window_src && npm install",
-    "dev:view:window": "npm --prefix ./views/window_src run dev",
+    "dev:view": "npm --prefix ./views/window_src run dev",
     "build:view:window": "npm --prefix ./views/window_src run build",
     "install:box": "npm install",
     "dev:box": "electron . LOG_TO_TERMINAL LOG_TO_FILE LOG_LEVEL=DEBUG PAGE_DEBUG PAGE_URL",

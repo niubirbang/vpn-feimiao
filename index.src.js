@@ -13,6 +13,9 @@ const { run: hookRun, registryReady } = require('./libs/hook')
 
 loggerInit()
 
+app.commandLine.appendSwitch("high-dpi-support", "true")
+app.commandLine.appendSwitch("force-device-scale-factor", "1")
+
 // main
 process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true'
 const app_protocol = app_id

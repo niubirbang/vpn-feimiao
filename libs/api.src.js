@@ -1334,6 +1334,7 @@ const subscribe_delay_mocks = {
 }
 
 const data_to_subscribe = (data) => {
+  console.log("****", data)
   let subscribe = []
   for (let item of data) {
     let children = []

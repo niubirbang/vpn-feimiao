@@ -347,7 +347,7 @@ onMounted(() => {
 .plan-selector .item {
   box-sizing: border-box;
   padding: 1rem;
-  background: #232331;
+  background: #26272B;
   color: #9ea0a2;
   border-radius: 1rem;
   font-size: 1.4rem;
@@ -395,8 +395,8 @@ onMounted(() => {
   width: calc(33.33% - 12px);
   box-sizing: border-box;
   padding: 1rem 0;
-  background: #232331;
-  border: 2px solid #232331;
+  background: #26272B;
+  border: 2px solid #26272B;
   border-radius: 1rem;
   display: flex;
   flex-direction: column;
@@ -428,7 +428,7 @@ onMounted(() => {
   font-size: 0.7rem;
   box-sizing: border-box;
   padding: 0.2rem 0.8rem;
-  background: #2d2d3c;
+  background: #18181B;
   border-radius: 10rem;
 }
 .payments {

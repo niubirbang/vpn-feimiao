@@ -7,11 +7,12 @@ import { Error } from '@/notification'
 import { USER_LEVEL_FREE, USER_LEVEL_VIP, USER_LEVEL_SVIP } from '@/store'
 import { $DateFormat, $DateTimeFormat } from '@/util'
 import { ShowService, ShowServicePolicy, ShowPrivacyPolicy, ShowTelegram, Confirm } from '@/util/directives'
-import { IconBind, IconService, IconInvite, IconBindInvite, IconServicePolicy, IconPrivacyPolicy,IconTelegram,  IconAboutUs, IconClose, IconFresh, IconOption, Avatar, UserFree } from '@/util/assets'
+import { IconBind, IconService, IconInvite, IconBindInvite, IconServicePolicy, IconPrivacyPolicy, IconTelegram, IconAboutUs, IconClose, IconFresh, IconOption, Avatar, UserFree } from '@/util/assets'
 
 const router = useRouter()
 const store = useStore()
 
+const authorized = computed(() => store.state.authorized);
 const authorization_type = computed(() => store.state.authorization_type)
 const user_id = computed(() => store.state.user_id)
 const nickname = computed(() => store.state.user_nickname)
@@ -52,7 +53,7 @@ const options = computed(() => {
     {
       name: '绑定手机号/邮箱',
       icon: IconBind,
-      hide: authorization_type.value !== 'device',
+      hide: !authorized.value || authorization_type.value !== 'device',
       do: () => {
         router.push('/bind')
       },
@@ -109,7 +110,7 @@ const options = computed(() => {
     {
       name: '注销账号',
       icon: IconClose,
-      hide: authorization_type.value === 'device',
+      hide: !authorized.value ||authorization_type.value === 'device',
       do: () => {
         router.push('/delete_account')
       },
@@ -158,99 +159,65 @@ onMounted(() => {
 <template>
   <div>
     <div class="base">
-      <img
-        class="avatar"
-        :src="Avatar"
-      >
-      <div class="left">
-        <p class="user-name">ID: {{ user_id }}</p>
-        <p
-          class="user-name pointer"
-          v-if="authorization_type === 'device'"
-          v-navigate="'/bind'"
-        >未绑定手机号/邮箱</p>
-        <p
-          class="user-name"
-          v-if="authorization_type === 'user'"
-        >{{ nickname }}</p>
-        <div
-          class="free"
-          v-if="level == USER_LEVEL_FREE"
-        >
-          <img
-            class="user-level-icon"
-            :src="UserFree"
-          >
-          <p>{{ freeExpireTxt }}</p>
+      <img class="avatar" :src="Avatar">
+      <template v-if="authorized">
+        <div class="left">
+          <p class="user-name">ID: {{ user_id }}</p>
+          <p class="user-name pointer" v-if="authorization_type === 'device'" v-navigate="'/bind'">未绑定手机号/邮箱</p>
+          <p class="user-name" v-if="authorization_type === 'user'">{{ nickname }}</p>
+          <div class="free" v-if="level == USER_LEVEL_FREE">
+            <img class="user-level-icon" :src="UserFree">
+            <p>{{ freeExpireTxt }}</p>
+          </div>
         </div>
-      </div>
-      <img
-        class="fresh pointer"
-        :src="IconFresh"
-        :class="{ animation: freshingUser }"
-        @click="freshUser"
-      >
+        <img class="fresh pointer" :src="IconFresh" :class="{ animation: freshingUser }" @click="freshUser">
+      </template>
+      <template v-else>
+        <p class="pointer" v-navigate="'/login'">去登录</p>
+      </template>
     </div>
     <div class="user-level">
-      <div
-        class="item pointer vip"
-        :class="{ active : !vipExpired }"
-        v-navigate="'/recharge_full?key=vip'"
-      >
+      <div class="item pointer vip" :class="{ active: !vipExpired }" v-navigate="'/recharge_full?key=vip'">
         <div class="name">
           <p>VIP会员</p>
           <el-icon size="1.2rem">
             <ArrowRight />
           </el-icon>
         </div>
-        <div class="expired-at">{{ expireTxt(USER_LEVEL_VIP) }}</div>
+        <template v-if="authorized">
+          <div class="expired-at">{{ expireTxt(USER_LEVEL_VIP) }}</div>
+        </template>
+        <template v-else>
+          <div class="expired-at">开通享专属特权</div>
+        </template>
       </div>
-      <div
-        class="item pointer svip"
-        :class="{ active : !svipExpired }"
-        v-navigate="'/recharge_full?key=svip'"
-      >
+      <div class="item pointer svip" :class="{ active: !svipExpired }" v-navigate="'/recharge_full?key=svip'">
         <div class="name">
           <p>SVIP会员</p>
           <el-icon size="1.2rem">
             <ArrowRight />
           </el-icon>
         </div>
-        <div class="expired-at">{{ expireTxt(USER_LEVEL_SVIP) }}</div>
+        <template v-if="authorized">
+          <div class="expired-at">{{ expireTxt(USER_LEVEL_SVIP) }}</div>
+        </template>
+        <template v-else>
+          <div class="expired-at">开通享专属特权</div>
+        </template>
       </div>
     </div>
     <div class="options">
-      <template
-        v-for="(option, i) of options"
-        :key="i"
-      >
-        <div
-          class="option pointer"
-          v-if="!option?.hide"
-          @click="option.do"
-        >
-          <img
-            class="icon"
-            :src="option.icon"
-          >
+      <template v-for="(option, i) of options" :key="i">
+        <div class="option pointer" v-if="!option?.hide" @click="option.do">
+          <img class="icon" :src="option.icon">
           <p>{{ option.name }}</p>
-          <img
-            class="option-icon"
-            :src="IconOption"
-          >
+          <img class="option-icon" :src="IconOption">
         </div>
       </template>
     </div>
-    <el-button
-      class="logout"
-      @click="logout"
-      v-if="authorization_type === 'user'"
-    >退出登录</el-button>
-    <el-button
-      class="logout"
-      v-navigate='"/login"'
-      v-if="authorization_type !== 'user'"
-    >登录其他账号</el-button>
+    <el-button class="logout" @click="logout" v-if="authorized && authorization_type === 'user'">退出登录</el-button>
+    <el-button class="logout" v-navigate='"/login"' v-if="authorized && authorization_type !== 'user'">登录其他账号</el-button>
+    <el-button class="logout" v-navigate='"/login"' v-if="!authorized">去登录</el-button>
   </div>
 </template>
 
@@ -260,32 +227,39 @@ onMounted(() => {
   flex-direction: column;
   gap: 1rem;
 }
+
 .base {
   display: flex;
   align-items: center;
   gap: 1rem;
 }
+
 .base .avatar {
   width: 4rem;
   height: auto;
   border-radius: 50%;
 }
+
 .base .user-name {
   font-weight: bold;
   font-size: 1.2rem;
 }
+
 .base .user-level-icon {
   width: 3.6rem;
   height: auto;
 }
+
 .base .fresh {
   margin-left: auto;
   width: 1.6rem;
   height: auto;
 }
+
 .base .fresh.animation {
   animation: rotate 2s linear infinite;
 }
+
 .base .left {
   height: 3.6rem;
   display: flex;
@@ -293,11 +267,13 @@ onMounted(() => {
   justify-content: flex-start;
   gap: 1rem;
 }
+
 .base .free {
   display: flex;
   align-items: center;
   gap: 1rem;
 }
+
 .user-level {
   width: 100%;
   box-sizing: border-box;
@@ -309,50 +285,59 @@ onMounted(() => {
   justify-content: space-between;
   gap: 2rem;
 }
+
 .user-level .active {
   color: #ffb037;
 }
+
 .user-level .item {
   flex: 1;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
 }
+
 .user-level .item .name {
   font-size: 1.2rem;
   display: flex;
   align-items: center;
   gap: 0.2rem;
 }
+
 .options {
   margin-top: 1rem;
   display: flex;
   flex-direction: column;
   gap: 2rem;
 }
+
 .option {
   display: flex;
   align-items: center;
   gap: 1.5rem;
 }
+
 .option .icon {
   width: 1.5rem;
   height: auto;
 }
+
 .option p {
   font-size: 1.1rem;
 }
+
 .option .option-icon {
   margin-left: auto;
   width: auto;
   height: 0.8rem;
 }
+
 .logout {
   margin-top: auto;
   width: 100%;
   height: 4rem;
-  --el-button-bg-color: #232331;
+  --el-button-bg-color: #26272B;
   --el-border-radius-base: 1rem;
-  --el-button-border-color: #232331;
+  --el-button-border-color: #26272B;
 }
 </style>

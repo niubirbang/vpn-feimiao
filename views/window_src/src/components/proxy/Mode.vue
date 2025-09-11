@@ -88,7 +88,7 @@ const change = (r) => {
 .box {
   flex: 1;
   height: 3rem;
-  background: #2d2d3c;
+  background: #18181B;
   border-radius: 1rem;
   padding: 1rem;
   display: flex;
@@ -124,7 +124,7 @@ const change = (r) => {
 }
 .dialog .selector {
   color: #fff;
-  background: #2d2d3c;
+  background: #18181B;
   border-radius: 1rem;
   width: 100%;
   height: 5rem;

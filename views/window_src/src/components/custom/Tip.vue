@@ -110,11 +110,15 @@ const tip = computed(() => {
 <style scoped>
 .expired-at {
   box-sizing: border-box;
-  padding: 0.5rem 2rem;
-  background: #4f3f2b;
+  padding: 1rem 2rem;
+  background: #2d271f;
   border-radius: 1rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+.expired-at .el-button {
+  background: linear-gradient( 90deg, #FFB20E 0%, #FF7B0B 100%);
+  min-width: 5rem;
 }
 </style>

@@ -44,29 +44,31 @@ body {
 }
 
 #container:has(.home-bg) {
-  background: url("@/assets/image/home-bg.png") no-repeat, #232331;
+  background: url("@/assets/image/home-bg.png") no-repeat, #26272B;
   background-size: 100% auto;
   background-position-y: 0rem;
   background-color: var(--window-background);
 }
 
 #container:has(.invite-bg) {
-  background: url("@/assets/image/invite-bg.png") no-repeat, #ffcd85;
-  background-size: 100% auto;
+  background: url("@/assets/image/invite-bg.png") no-repeat, var(--window-background);
+  background-size: 70% auto;
+  background-position-y: 3rem;
+  background-position-x: 50%;
 }
 
 #container:has(.vip-bg) {
-  background: url("@/assets/image/vip-bg.png") no-repeat, #ffcd85;
-  background-size: 100% 14rem;
+  background: url("@/assets/image/vip-bg.png") no-repeat, #1E1A16;
+  background-size: 100% auto;
   background-position-y: 0rem;
-  background-color: var(--window-background);
+  background-color: #1E1A16;
 }
 
 #container:has(.svip-bg) {
-  background: url("@/assets/image/svip-bg.png") no-repeat, #ffcd85;
-  background-size: 100% 14rem;
+  background: url("@/assets/image/svip-bg.png") no-repeat, #221F2E;
+  background-size: 100% auto;
   background-position-y: 0rem;
-  background-color: var(--window-background);
+  background-color: #221F2E;
 }
 
 
@@ -76,7 +78,7 @@ body {
 }
 
 #tabbar {
-  background: #232331;
+  background: #26272B;
   border-radius: var(--window-border-radius);
   --el-footer-height: unset;
   padding: 0;

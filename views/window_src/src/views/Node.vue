@@ -1,6 +1,6 @@
 <script setup>
-import Rule from "@/components/proxy/Rule.vue";
-import Mode from "@/components/proxy/Mode.vue";
+import Rule from "@/components/proxy/RuleV2.vue";
+import Mode from "@/components/proxy/ModeV2.vue";
 import Node from "@/components/proxy/Node.vue";
 import { $OS } from "@/util";
 import { Error } from "@/notification";
@@ -31,19 +31,22 @@ const refreshSubscribe = () => {
 
 <template>
   <div>
-    <div class="fresher">
+    <!-- <div class="fresher">
       <img
         class="pointer"
         :src="IconFresh"
         :class="{ animation: refreshingSubscribe }"
         @click="refreshSubscribe"
       />
-    </div>
+    </div> -->
     <div class="proxy">
       <Rule />
       <Mode v-if="os == 'windows'" />
     </div>
-    <Node />
+    <div class="nodes">
+      <p class="title">节点</p>
+      <Node />
+    </div>
   </div>
 </template>
 
@@ -52,6 +55,7 @@ const refreshSubscribe = () => {
   display: flex;
   flex-direction: column;
 }
+
 .page .fresher {
   width: 100%;
   box-sizing: border-box;
@@ -60,18 +64,29 @@ const refreshSubscribe = () => {
   align-items: center;
   justify-content: flex-end;
 }
+
 .page .fresher img {
   width: 1.6rem;
   height: auto;
 }
+
 .page .fresher img.animation {
   animation: rotate 2s linear infinite;
 }
+
 .proxy {
+  width: 100%;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
   margin-bottom: 1.5rem;
+}
+
+.nodes {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 </style>

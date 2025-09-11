@@ -32,18 +32,38 @@ const duration = computed(() => {
 </script>
 
 <template>
-  <p
-    v-if="show"
-    class="free-expired-at"
-  >剩余免费时长: {{ duration }}</p>
+  <div v-if="show" class="free-expired-at">
+    <span class="p1">剩余免费时长</span>
+    <span class="p2">{{ duration }}</span>
+    <div class="line"></div>
+  </div>
 </template>
 
 <style scoped>
 .free-expired-at {
   font-size: 1.1rem;
-
+  /* border-bottom: 2px dotted #888; */
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 1rem;
+  position: relative;
+}
+
+.free-expired-at .line {
+  position: absolute;
+  width: 100%;
+  bottom: -1rem;
+  border-bottom: 2px dotted #6F6F79;
+}
+
+.free-expired-at .p1 {
+  color: #6F6F79;
+}
+
+.free-expired-at .p2 {
+  /* color: var(--el-color-info); */
+  font-size: 2rem;
+  font-weight: bold;
 }
 </style>

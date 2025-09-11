@@ -20,16 +20,25 @@ import {
   SVIPPermission4,
 } from "@/util/assets";
 
-import p1 from "@/assets/image/p1.png";
-import p2 from "@/assets/image/p2.png";
-import p3 from "@/assets/image/p3.png";
-import p4 from "@/assets/image/p4.png";
+import vp1 from "@/assets/image/vip-p-1.png";
+import vp2 from "@/assets/image/vip-p-2.png";
+import vp3 from "@/assets/image/vip-p-3.png";
+import vp4 from "@/assets/image/vip-p-4.png";
+import vp5 from "@/assets/image/vip-p-5.png";
+import vp6 from "@/assets/image/vip-p-6.png";
+import svp1 from "@/assets/image/svip-p-1.png";
+import svp2 from "@/assets/image/svip-p-2.png";
+import svp3 from "@/assets/image/svip-p-3.png";
+import svp4 from "@/assets/image/svip-p-4.png";
+import svp5 from "@/assets/image/svip-p-5.png";
+import svp6 from "@/assets/image/svip-p-6.png";
 import { USER_LEVEL_FREE, USER_LEVEL_VIP, USER_LEVEL_SVIP } from "@/store";
 
 const router = useRouter();
 const route = useRoute();
 const store = useStore();
 
+const authorized = computed(() => store.state.authorized);
 const authorization_type = computed(() => store.state.authorization_type);
 const user_id = computed(() => store.state.user_id);
 const level = computed(() => store.state.user_level);
@@ -43,13 +52,23 @@ const currentPlan = ref({});
 const currentPrice = ref({});
 const currentPayment = ref({});
 const currentPlanExpiredAt = computed(() => {
-  switch (currentPlan.value?.key) {
-    case "vip":
-      return expireTxt.value(USER_LEVEL_VIP);
-    case "svip":
-      return expireTxt.value(USER_LEVEL_SVIP);
+  if (authorized.value) {
+    switch (currentPlan.value?.key) {
+      case "vip":
+        return expireTxt.value(USER_LEVEL_VIP);
+      case "svip":
+        return expireTxt.value(USER_LEVEL_SVIP);
+    }
   }
+  return "  "
 });
+
+const userIDTxt = computed(() => {
+  if (authorized.value) {
+    return `ID: ${user_id.value}`
+  }
+  return "  "
+})
 
 const plans = ref([]);
 const payments = ref([]);
@@ -69,17 +88,21 @@ const permissions = computed(() => {
   switch (currentPlan.value.key) {
     case "vip":
       return [
-        { img: p4, title: "共享线路" },
-        { img: p1, title: "共享超高宽带" },
-        { img: p2, title: "共享千兆带宽" },
-        { img: p3, title: "低延迟" },
+        { img: vp4, title: "共享线路" },
+        { img: vp1, title: "共享超高宽带" },
+        { img: vp2, title: "共享千兆带宽" },
+        { img: vp3, title: "低延迟" },
+        { img: vp5, title: "1080P高清" },
+        { img: vp6, title: "隐私加密传输" },
       ];
     case "svip":
       return [
-        { img: p4, title: "尊享线路" },
-        { img: p1, title: "独享超高宽带" },
-        { img: p2, title: "独享千兆带宽" },
-        { img: p3, title: "防抖丢包" },
+        { img: svp4, title: "尊享线路" },
+        { img: svp1, title: "独享超高宽带" },
+        { img: svp2, title: "独享千兆带宽" },
+        { img: svp3, title: "防抖丢包" },
+        { img: svp5, title: "1080P高清" },
+        { img: svp6, title: "隐私加密传输" },
       ];
     default:
       return [];
@@ -247,107 +270,79 @@ onMounted(() => {
 </script>
 
 <template>
-  <div
-    v-if="loaded"
-    class="recharge"
-    :class="[currentPlan?.key, `${currentPlan?.key}-bg`]"
-  >
-    <img class="img1" src="@/assets/image/vip-1.png" />
-    <div class="plan-selector">
-      <div
-        class="item pointer"
-        v-for="(plan, i) of plans"
-        :key="i"
-        :class="[plan.id == currentPlan.id ? 'active' : '']"
-        @click="changePlan(plan)"
-      >
-        {{ plan.name }}
+  <div v-if="loaded" class="recharge" :class="[currentPlan?.key, `${currentPlan?.key}-bg`]">
+    <div class="header">
+      <!-- <img class="img1" src="@/assets/image/vip-1.png" /> -->
+      <div class="plan-selector">
+        <div class="item pointer" v-for="(plan, i) of plans" :key="i"
+          :class="[plan.id == currentPlan.id ? 'active' : '']" @click="changePlan(plan)">
+          {{ plan.name }}
+        </div>
+      </div>
+      <div class="d1">
+        <p>{{ userIDTxt }}</p>
+        <p>{{ currentPlanExpiredAt }}</p>
       </div>
     </div>
-    <div class="d1">
-      <p>ID: {{ user_id }}</p>
-      <p>到期时间: {{ currentPlanExpiredAt }}</p>
-    </div>
-    <div class="permissions">
-      <div v-for="(permission, i) of permissions" :key="i">
-        <img :src="permission.img" />
-        <p>{{ permission.title }}</p>
+
+    <div class="inner">
+      <p class="price-selector-txt">套餐选择</p>
+
+      <!-- <div class="plan-current">
+        <img :src="currentPlanBackground" />
+        <p class="title">{{ currentPlan.title }}</p>
+        <p class="remark">{{ currentPlan.remark }}</p>
+      </div> -->
+
+      <div class="prices">
+        <div class="price pointer" v-for="(price, i) of currentPlan.prices" :key="i"
+          :class="{ active: price.period == currentPrice.period }" @click="changePrice(price)">
+          <p class="name">{{ price.name }}</p>
+          <p class="amount">
+            <span class="unit">¥ </span>
+            <span>{{ $Money(price.amount) }}</span>
+          </p>
+          <p class="original-amount">¥ {{ $Money(price.originalAmount) }}</p>
+          <p class="unit-price">平均{{ $Money(price.unitPrice) }}元/天</p>
+        </div>
       </div>
-    </div>
-    <!-- <div class="plan-current">
-      <img :src="currentPlanBackground" />
-      <p class="title">{{ currentPlan.title }}</p>
-      <p class="remark">{{ currentPlan.remark }}</p>
-    </div> -->
-    <p class="price-selector-txt">套餐选择</p>
-    <div class="prices">
-      <div
-        class="price pointer"
-        v-for="(price, i) of currentPlan.prices"
-        :key="i"
-        :class="{ active: price.period == currentPrice.period }"
-        @click="changePrice(price)"
-      >
-        <p class="name">{{ price.name }}</p>
-        <p class="amount">
-          <span class="unit">¥ </span>
-          <span>{{ $Money(price.amount) }}</span>
+      <div class="permissions">
+        <div v-for="(permission, i) of permissions" :key="i">
+          <img :src="permission.img" />
+          <p>{{ permission.title }}</p>
+        </div>
+      </div>
+
+      <div class="recharge-tip" v-if="authorization_type === 'device'">
+        <el-icon>
+          <Warning />
+        </el-icon>
+        <p>
+          游客状态只能一台设备登录并且充值出现丢失情况无法找回，
+          如需其他设备登录或订单找回，请绑定账号。
         </p>
-        <p class="original-amount">¥ {{ $Money(price.originalAmount) }}</p>
-        <p class="unit-price">平均{{ $Money(price.unitPrice) }}元/天</p>
+      </div>
+      <div>
+        <el-button class="bind-pay" v-if="authorized && authorization_type === 'device'" @click="go_bind">
+          绑定并开通
+        </el-button>
+      </div>
+      <div>
+        <el-button class="pay" v-if="authorized" @click="show_payment_dialog = true">立即开通</el-button>
       </div>
     </div>
 
-    <div class="recharge-tip" v-if="authorization_type === 'device'">
-      <el-icon>
-        <Warning />
-      </el-icon>
-      <p>
-        游客状态只能一台设备登录并且充值出现丢失情况无法找回，
-        如需其他设备登录或订单找回，请绑定账号。
-      </p>
-    </div>
-    <div>
-      <el-button
-        class="bind-pay"
-        v-if="authorization_type === 'device'"
-        @click="go_bind"
-        >绑定并开通</el-button
-      >
-    </div>
-    <div>
-      <el-button class="pay" @click="show_payment_dialog = true"
-        >立即开通</el-button
-      >
-    </div>
-
-    <el-drawer
-      class="header-no-margin"
-      v-model="show_payment_dialog"
-      direction="btt"
-      title="确认订单"
-      size="33%"
-    >
+    <el-drawer class="header-no-margin" v-model="show_payment_dialog" direction="btt" title="确认订单" size="33%">
       <div class="payment-drawer">
         <!-- <div class="title">确认订单</div> -->
         <div class="payments">
-          <div
-            class="payment pointer"
-            v-for="(payment, i) of payments"
-            :key="i"
-            @click="currentPayment = payment"
-          >
+          <div class="payment pointer" v-for="(payment, i) of payments" :key="i" @click="currentPayment = payment">
             <img :src="payment.icon" />
             <p>{{ payment.name }}</p>
-            <Iconfont
-              class="selector"
-              :class="payment.id == currentPayment.id ? 'selected' : 'unselect'"
-              :name="
-                payment.id == currentPayment.id
-                  ? 'radio-selected'
-                  : 'radio-unselect'
-              "
-            />
+            <Iconfont class="selector" :class="payment.id == currentPayment.id ? 'selected' : 'unselect'" :name="payment.id == currentPayment.id
+              ? 'radio-selected'
+              : 'radio-unselect'
+              " />
           </div>
         </div>
         <div class="current">
@@ -361,55 +356,27 @@ onMounted(() => {
       </div>
     </el-drawer>
 
-    <el-dialog
-      class="pay-dialog"
-      width="60%"
-      v-model="show_pay_qr_dialog"
-      :show-close="false"
-      :align-center="true"
-      :close-on-click-modal="false"
-      :close-on-press-escape="false"
-    >
+    <el-dialog class="pay-dialog" width="60%" v-model="show_pay_qr_dialog" :show-close="false" :align-center="true"
+      :close-on-click-modal="false" :close-on-press-escape="false">
       <div class="content">
         <p>{{ `请使用手机${currentPayment.name}扫码支付` }}</p>
         <img :src="pay_qr_code" />
-        <el-icon
-          class="pointer"
-          size="2rem"
-          @click="show_pay_qr_dialog = false"
-        >
+        <el-icon class="pointer" size="2rem" @click="show_pay_qr_dialog = false">
           <CircleClose />
         </el-icon>
       </div>
     </el-dialog>
-    <el-dialog
-      class="pay-success-dialog white"
-      width="60%"
-      v-model="show_pay_success_dialog"
-      :show-close="false"
-      :align-center="true"
-      :close-on-click-modal="false"
-      :close-on-press-escape="false"
-    >
+    <el-dialog class="pay-success-dialog white" width="60%" v-model="show_pay_success_dialog" :show-close="false"
+      :align-center="true" :close-on-click-modal="false" :close-on-press-escape="false">
       <div class="content">
-        <img
-          class="close-img pointer"
-          src="@/assets/image/icon-close.png"
-          @click="close_pay_success"
-        />
+        <img class="close-img pointer" src="@/assets/image/icon-close.png" @click="close_pay_success" />
         <img class="icon-success" src="@/assets/image/icon-success.png" />
         <p class="title">支付成功</p>
         <p class="text" v-if="authorization_type === 'device'">
           游客状态只能一台设备登录并，且充值出现丢失情况无法找回，如需其他设备登录或订单找回，请绑定账号。
         </p>
         <p class="text" v-else></p>
-        <el-button
-          v-if="authorization_type === 'device'"
-          type="primary"
-          round
-          @click="go_bind"
-          >立即绑定</el-button
-        >
+        <el-button v-if="authorization_type === 'device'" type="primary" round @click="go_bind">立即绑定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -421,31 +388,63 @@ onMounted(() => {
   flex-direction: column;
   gap: 1rem;
   position: relative;
+  overflow: hidden;
+  height: 100%;
 }
+
+.header {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  min-height: 12.5rem;
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  overflow: scroll;
+  flex: 1 1 auto;
+}
+
 .img1 {
   position: absolute;
   right: 1rem;
   top: 3rem;
   height: 6rem;
 }
+
 .plan-selector {
   display: flex;
   align-items: center;
   gap: 1rem;
 }
+
 .plan-selector .item {
   box-sizing: border-box;
   padding: 1rem;
   /* background: #26272B; */
-  color: #ae8c5a;
+  /* color: #fff; */
   border-radius: 1rem;
   font-size: 1.4rem;
-  font-weight: bold;
+  /* font-weight: bold; */
   flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
 }
+
+.plan-selector .item.active::after {
+  position: absolute;
+  content: "";
+  width: 1.3rem;
+  height: 4px;
+  border-radius: 999rem;
+  top: 3rem;
+}
+
 .plan-current {
   position: relative;
   width: 100%;
@@ -456,6 +455,7 @@ onMounted(() => {
   flex-direction: column;
   gap: 1rem;
 }
+
 .plan-current img {
   position: absolute;
   left: 0;
@@ -464,22 +464,27 @@ onMounted(() => {
   height: 100%;
   z-index: 0;
 }
+
 .plan-current p {
   z-index: 1;
 }
+
 .plan-current .title {
   font-size: 1.4rem;
   font-weight: bold;
 }
+
 .price-selector-txt {
   font-size: 1.2rem;
 }
+
 .prices {
   width: 100%;
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
 }
+
 .price {
   width: calc(33.33% - 12px);
   box-sizing: border-box;
@@ -492,11 +497,13 @@ onMounted(() => {
   align-items: center;
   gap: 0.6rem;
 }
+
 .price .name {
   font-size: 1rem;
   font-weight: bold;
   color: #c6c6c5;
 }
+
 .price .amount {
   display: flex;
   align-items: baseline;
@@ -504,15 +511,18 @@ onMounted(() => {
   font-size: 1.6rem;
   font-weight: bold;
 }
+
 .price .amount .unit {
   font-size: 0.92rem;
   font-weight: normal;
 }
+
 .price .original-amount {
   font-size: 0.92rem;
   color: #78777c;
   text-decoration-line: line-through;
 }
+
 .price .unit-price {
   font-size: 0.7rem;
   box-sizing: border-box;
@@ -520,66 +530,77 @@ onMounted(() => {
   background: #18181B;
   border-radius: 10rem;
 }
+
 .payments {
   display: flex;
   flex-direction: column;
   gap: 1rem;
 }
+
 .payment {
   display: flex;
   align-items: center;
   gap: 1rem;
 }
+
 .payment img {
   height: 1.6rem;
   width: auto;
 }
+
 .payment .selector {
   margin-left: auto;
   font-size: 1.8rem;
 }
+
 .payment .selector.selected {
   color: #ffb111;
 }
+
 .payment .selector.unselect {
   color: #353447;
 }
+
 .pay {
   width: 100%;
-  height: 4rem;
-  --el-border-radius-base: 1rem;
+  height: 3rem;
+  --el-border-radius-base: 999rem;
 }
+
 .bind-pay {
   width: 100%;
-  height: 4rem;
-  --el-border-radius-base: 1rem;
-  background: #3e3935;
+  height: 3rem;
+  --el-border-radius-base: 999rem;
 }
+
 .permissions {
-  box-sizing: border-box;
-  padding: 1rem;
-  background: #282b30;
   border-radius: 1rem;
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   justify-content: space-between;
+  gap: 1rem;
   z-index: 11;
 }
+
 .permissions div {
-  flex: 1;
+  box-sizing: border-box;
+  padding: 0.4rem 0.7rem;
+  border-radius: 1rem;
+  width: calc(50% - 0.5rem);
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 1rem;
 }
+
 .permissions img {
   width: auto;
-  height: 3rem;
+  height: 2.5rem;
 }
+
 .permissions p {
   font-size: 0.85rem;
-  color: #fcd189;
 }
 
 .recharge-tip {
@@ -588,72 +609,142 @@ onMounted(() => {
   align-items: center;
   gap: 0.5rem;
 }
+
 .recharge-tip .el-icon {
   font-size: 1.6rem;
 }
+
 .recharge-tip p {
   font-size: 0.8rem;
 }
 
 /* vip */
-.vip .plan-selector .item.active {
-  /* background: linear-gradient(90deg, #deb563, #dda53b); */
-  color: #77582e;
+.vip .plan-selector .item {
+  color: #ae8c5a;
 }
+
+.vip .plan-selector .item.active {
+  color: #77582e;
+  font-weight: bold;
+}
+
+.vip .plan-selector .item.active::after {
+  background-color: #77582e;
+}
+
 .vip .plan-current {
   color: #854f0a;
 }
+
+.vip .price {
+  border: 2px solid #423729;
+  background: #2F261B;
+}
+
 .vip .price.active {
-  border: 2px solid #deb563;
-  background: #2a2927;
+  border: 2px solid #FFF2C9;
+  background: #565043;
 }
+
 .vip .price.active .name {
-  color: #deb563;
+  color: #FEE69D;
 }
+
 .vip .price.active .amount {
-  color: #deb563;
+  color: #FEE69D;
 }
+
 .vip .price.active .original-amount {
-  color: #deb563;
+  color: #FEE69D;
 }
+
 .vip .price.active .unit-price {
-  background: #deb563;
-  color: #854f0a;
+  background: linear-gradient(180deg, #FEF3CD 0%, #FFE596 100%);
+  color: #70490D;
 }
+
+.vip .bind-pay {
+  --el-button-hover-text-color: #fff;
+  background: #1E1A16;
+  border: 1px solid #534A32;
+}
+
 .vip .pay {
-  background: linear-gradient(90deg, #fce8b5, #fcd188);
-  color: #854f0a;
+  --el-button-hover-border-color: #FBCD87;
+  background: linear-gradient(90deg, #FBCD87 0%, #E2AC58 100%);
+  color: #fff;
+}
+
+.vip .permissions div {
+  color: #fff;
+  background: #2F261B;
+  border: 1px solid #463C2A;
 }
 
 /* svip */
 .svip .plan-selector .item.active {
-  /* background: linear-gradient(90deg, #fce8b5, #fcd188); */
-  color: #e9b36a;
+  color: #fff;
 }
+
+.svip .plan-selector .item.active::after {
+  background-color: #FEA81C;
+}
+
 .svip .plan-current {
   color: #b46609;
 }
+
+.svip .price {
+  border: 2px solid #414661;
+  background: #32364F;
+}
+
 .svip .price.active {
-  border: 2px solid #efd29e;
-  background: #4f473a;
+  border: 2px solid #9BAAE8;
+  background: #3C3D68;
 }
+
 .svip .price.active .name {
-  color: #fcd088;
+  color: #A6B7F7;
 }
+
 .svip .price.active .amount {
-  color: #fcd088;
+  color: #A6B7F7;
 }
+
 .svip .price.active .original-amount {
-  color: #987a52;
+  color: #636B9D;
 }
-.svip .price.active .unit-price {
-  background: #fcd188;
-  color: #c57e2c;
-}
-.svip .pay {
-  background: linear-gradient(90deg, #7d8589, #65665b);
+
+.svip .price .unit-price {
+  background: #474C6A;
   color: #fff;
 }
+
+.svip .price.active .unit-price {
+  background: linear-gradient(180deg, #EBE8F0 0%, #C4CCFB 100%);
+  color: #2E324B;
+}
+
+
+.svip .bind-pay {
+  --el-button-hover-text-color: #fff;
+  background: #221F2E;
+  border: 1px solid #4E5371;
+}
+
+.svip .pay {
+  --el-button-hover-border-color: #4E5371;
+  background: linear-gradient(90deg, #4E5371 0%, #313474 100%);
+  color: #fff;
+}
+
+.svip .permissions div {
+  color: #fff;
+  background: #32364F;
+  border: 1px solid #444865;
+}
+
 .pay-dialog .content {
   display: flex;
   flex-direction: column;
@@ -661,6 +752,7 @@ onMounted(() => {
   justify-content: center;
   gap: 1rem;
 }
+
 .pay-success-dialog .content {
   box-sizing: border-box;
   padding: 0 1rem;
@@ -671,20 +763,25 @@ onMounted(() => {
   justify-content: space-between;
   gap: 1rem;
 }
+
 .pay-success-dialog .content .icon-success {
   height: 3rem;
   width: 3rem;
 }
+
 .pay-success-dialog .content .title {
   font-size: 1.1rem;
   color: var(--el-color-primary);
 }
+
 .pay-success-dialog .content .text {
   font-size: 1.1rem;
 }
+
 .pay-success-dialog .content .el-button {
   width: 100%;
 }
+
 .pay-success-dialog .content .close-img {
   position: absolute;
   left: 50%;
@@ -692,11 +789,13 @@ onMounted(() => {
   bottom: -4rem;
   height: 2rem;
 }
+
 .payment-drawer {
   display: flex;
   flex-direction: column;
   gap: 1rem;
 }
+
 .payment-drawer .title {
   align-self: center;
   position: relative;
@@ -707,20 +806,38 @@ onMounted(() => {
   align-items: center;
   justify-content: space-between;
 }
+
 .payment-drawer .emtpy {
   margin: 0;
 }
+
 .d1 {
+  margin-top: 1rem;
+  margin-bottom: 2rem;
   box-sizing: border-box;
-  padding: 0 1rem;
+  padding: 0.5rem 1.5rem;
   display: flex;
   flex-direction: column;
   gap: 1rem;
 }
+
+.d1 p:first-child {
+  font-weight: bold;
+}
+
 .vip .d1 {
   color: #9f7948;
 }
+
+.vip .d1 p:first-child {
+  color: #6B4303;
+}
+
 .svip .d1 {
-  color: #e9b36a;
+  color: #fff;
+}
+
+.svip .d1 p:first-child {
+  color: #fff;
 }
 </style>

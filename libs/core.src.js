@@ -165,10 +165,10 @@ const retest_node_delay = (url) => {
 }
 const test_node_delay = (node) => {
   test_delay(node.address, node.port).then(delay => {
-    console.log('core', `test node delay success: ${node.name}, ${node.address}:${node.port}, ${delay}`)
+    // console.log('core', `test node delay success: ${node.name}, ${node.address}:${node.port}, ${delay}`)
     if (node?.inner?.delay_mock && typeof node?.inner?.delay_mock === 'function') {
       delay = node.inner.delay_mock(delay)
-      console.log('core', `test node delay with mock success: ${node.name}, ${node.address}:${node.port}, ${delay}`)
+      // console.log('core', `test node delay with mock success: ${node.name}, ${node.address}:${node.port}, ${delay}`)
     }
     if (node.url in store.delaies) {
       const old_delay = store.delaies[node.url]
@@ -181,7 +181,7 @@ const test_node_delay = (node) => {
       store.delaies[node.url] = delay
     }
   }).catch(err => {
-    console.warn('core', `test node delay failed: ${node.name}, ${node.address}:${node.port}`, err?.message)
+    // console.warn('core', `test node delay failed: ${node.name}, ${node.address}:${node.port}`, err?.message)
     if (node.url in store.delaies) {
 
     } else {

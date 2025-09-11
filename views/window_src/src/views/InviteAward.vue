@@ -67,8 +67,8 @@ onMounted(() => {
 .award {
   box-sizing: border-box;
   padding: 1rem;
-  background: #232331;
-  border: 2px solid #232331;
+  background: #26272B;
+  border: 2px solid #26272B;
   border-radius: 1rem;
   display: flex;
   flex-direction: column;

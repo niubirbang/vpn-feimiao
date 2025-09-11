@@ -4,7 +4,7 @@ import { useRouter } from "vue-router"
 import { useStore } from 'vuex'
 import { Crisp } from "crisp-sdk-web"
 import { ElLoading } from 'element-plus'
-import { Error } from '@/notification'
+import { Error as NError } from '@/notification'
 
 const router = useRouter()
 const store = useStore()
@@ -33,11 +33,9 @@ const oepnService = () => {
         default:
           throw new Error(`暂不支持${service.value.type}客服类型！`)
       }
-    } else {
-      throw new Error('客服系统加载中！')
     }
   } catch (err) {
-    Error(err)
+    NError(err)
   }
   show.value = false
 }
@@ -68,7 +66,7 @@ const open_livechat = (id) => {
     loading.close()
   }).catch(err => {
     loading.close()
-    Error(err)
+    NError(err)
   })
 }
 
@@ -99,11 +97,11 @@ const open_url = (url) => {
       loading.close()
     }).catch(err => {
       loading.close()
-      Error(err)
+      NError(err)
     })
   } catch (err) {
     loading.close()
-    Error(err)
+    NError(err)
   }
 }
 
