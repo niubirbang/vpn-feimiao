@@ -215,8 +215,8 @@ onMounted(() => {
         </div>
       </template>
     </div>
-    <el-button class="logout" @click="logout" v-if="authorized && authorization_type === 'user'">退出登录</el-button>
-    <el-button class="logout" v-navigate='"/login"' v-if="authorized && authorization_type !== 'user'">登录其他账号</el-button>
+    <el-button class="logout" @click="logout" v-if="authorized">退出登录</el-button>
+    <!-- <el-button class="logout" v-navigate='"/login"' v-if="authorized && authorization_type !== 'user'">登录其他账号</el-button> -->
     <el-button class="logout" v-navigate='"/login"' v-if="!authorized">去登录</el-button>
   </div>
 </template>
