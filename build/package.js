@@ -102,7 +102,7 @@ const build = (platform, arch) => {
   const asar = asars[`${platform}-${arch}`];
   if (exists(installer) && exists(asar)) {
     console.log(`package ${platform} ${arch}`);
-    build_zip(channel_id, platform, asar, installer, asar);
+    build_zip(channel_id, platform, arch, installer, asar);
   }
 };
 
