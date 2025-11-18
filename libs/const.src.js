@@ -1,25 +1,25 @@
-const os = require('os')
-const path = require('path')
-const { app } = require('electron')
-const { machineIdSync } = require('node-machine-id')
-const crypto = require('crypto')
-const { name, name_cn, name_en, core_config } = require('../package.json')
-const { read } = require('./util')
+const os = require("os");
+const path = require("path");
+const { app } = require("electron");
+const { machineIdSync } = require("node-machine-id");
+const crypto = require("crypto");
+const { name, name_cn, name_en, core_config } = require("../package.json");
+const { read } = require("./util");
 
-const page_debug = process.argv.includes('PAGE_DEBUG')
-const page_url = process.argv.includes('PAGE_URL')
-const updater_debug = process.argv.includes('UPDATER_DEBUG')
+const page_debug = process.argv.includes("PAGE_DEBUG");
+const page_url = process.argv.includes("PAGE_URL");
+const updater_debug = process.argv.includes("UPDATER_DEBUG");
 
 const get_device_id = () => {
-  return crypto.createHash('md5').update(machineIdSync()).digest('hex')
-}
+  return crypto.createHash("md5").update(machineIdSync()).digest("hex");
+};
 
-const device_id = get_device_id()
-const device_name = `${os.platform} ${os.release()}`
+const device_id = get_device_id();
+const device_name = `${os.platform} ${os.release()}`;
 const device_type = {
   darwin: 3,
   win32: 4,
-}[process.platform]
+}[process.platform];
 const device_type_with_arch = {
   darwin: {
     x64: 3,
@@ -29,52 +29,51 @@ const device_type_with_arch = {
     x64: 5,
     arm64: 6,
   },
-}[process.platform][process.arch]
+}[process.platform][process.arch];
 
 const get_resources_path = () => {
   if (app.isPackaged) {
-    return process.resourcesPath
+    return process.resourcesPath;
   } else {
-    return path.join(__dirname, '../')
+    return path.join(__dirname, "../");
   }
-}
-const resources_path = get_resources_path()
-const config_path = path.join(app.getPath('appData'), `${name}/.config`)
-const log_path = path.join(app.getPath('appData'), `${name}/.log`)
-const xfuture_path = path.join(resources_path, 'node_modules/xfuture')
-const channel_path = path.join(resources_path, 'channel.json')
-const dev_updater_server_path = path.join(resources_path, 'updater.dev.json')
+};
+const resources_path = get_resources_path();
+const config_path = path.join(app.getPath("appData"), `${name}/.config`);
+const log_path = path.join(app.getPath("appData"), `${name}/.log`);
+const channel_path = path.join(resources_path, "channel.json");
+const dev_updater_server_path = path.join(resources_path, "updater.dev.json");
 
-console.log(`resources_path: "${resources_path}"`)
-console.log(`config_path: "${config_path}"`)
-console.log(`log_path: "${log_path}"`)
-console.log(`xfuture_path: "${xfuture_path}"`)
-console.log(`channel_path: "${channel_path}"`)
-console.log(`dev_updater_server_path: "${dev_updater_server_path}"`)
+console.log(`resources_path: "${resources_path}"`);
+console.log(`config_path: "${config_path}"`);
+console.log(`log_path: "${log_path}"`);
+console.log(`channel_path: "${channel_path}"`);
+console.log(`dev_updater_server_path: "${dev_updater_server_path}"`);
 
 const get_channel_info = () => {
   let info = {
-    id: '',
+    id: "",
     hiddenNodes: false,
-  }
+  };
   try {
-    info = JSON.parse(read(path.join(resources_path, 'channel.json')))
+    info = JSON.parse(read(path.join(resources_path, "channel.json")));
     if (!info) {
-      info = {}
+      info = {};
     }
     if (!info?.id) {
-      info.id = ''
+      info.id = "";
     }
     if (!info?.hiddenNodes) {
-      info.hiddenNodes = false
+      info.hiddenNodes = false;
     }
   } catch (err) {
-    console.error('get channel id failed:', err?.message)
+    console.error("get channel id failed:", err?.message);
   }
-  return info
-}
+  return info;
+};
 
-const { id: channel_id, hiddenNodes: channel_hidden_nodes } = get_channel_info()
+const { id: channel_id, hiddenNodes: channel_hidden_nodes } =
+  get_channel_info();
 
 module.exports = {
   name,
@@ -87,7 +86,6 @@ module.exports = {
   resources_path,
   config_path,
   log_path,
-  xfuture_path,
   channel_path,
   device_id,
   device_name,
@@ -96,4 +94,4 @@ module.exports = {
   channel_id,
   channel_hidden_nodes,
   dev_updater_server_path,
-}
+};

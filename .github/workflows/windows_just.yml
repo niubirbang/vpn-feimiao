@@ -29,6 +29,8 @@ jobs:
         run: |
           npm run install:view:window
           npm run install:box
+          npm run service:download
+          npm run service:build
           npm run icons:win
           npm run obfuscate
           npm run channel -- ${{ github.ref_name }}

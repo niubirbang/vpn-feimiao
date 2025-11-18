@@ -1,10 +1,14 @@
 name: Release Mac
+
+env:
+  SPACE_ENVOY_SERVICE_DOWNLOAD_TOKEN: ${{ secrets.SPACE_ENVOY_SERVICE_DOWNLOAD_TOKEN }}
+
 on:
   push:
     tags:
-      - 'mac-v*.*.*'
-      - 'mac-channel-v*.*.*-*'
-      - 'mac-beta-*-channel-v*.*.*-*'
+      - "mac-v*.*.*"
+      - "mac-channel-v*.*.*-*"
+      - "mac-beta-*-channel-v*.*.*-*"
 
 jobs:
   release:
@@ -30,6 +34,8 @@ jobs:
         run: |
           npm run install:view:window
           npm run install:box
+          npm run service:download
+          npm run service:build
           npm run icons:mac
           npm run obfuscate
           npm run channel -- ${{ github.ref_name }}

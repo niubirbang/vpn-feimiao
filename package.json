@@ -3,7 +3,9 @@
   "name_cn": "飞喵加速器",
   "name_en": "MH SPEED",
   "app_id": "com.flycat.fast",
-  "version": "1.1.0",
+  "service_preinstall": true,
+  "service_version": "2.0.4",
+  "version": "1.1.1",
   "version_force": false,
   "version_logs": [
     "更新支付方式",
@@ -18,6 +20,8 @@
     "use_last_choise": true
   },
   "scripts": {
+    "service:download": "node build/service/download.js",
+    "service:build": "node build/service/build.js",
     "obfuscate": "node build/obfuscate.js",
     "unobfuscate": "node build/unobfuscate.js",
     "channel": "node build/channel.js",
@@ -42,10 +46,10 @@
     "electron-builder": "^24.4.0",
     "electron-icon-builder": "^2.0.1",
     "javascript-obfuscator": "^4.1.1",
-    "js-yaml": "^4.1.0",
-    "xfuture": "2.9.9"
+    "js-yaml": "^4.1.0"
   },
   "dependencies": {
+    "@niubir/space-envoy-service": "^2.0.5",
     "adm-zip": "^0.5.15",
     "axios": "^1.6.8",
     "crypto-js": "^4.2.0",
@@ -72,13 +76,14 @@
       "!views/window_src/**/*",
       "!channels/**/*",
       "!server/**/*",
-      "!node_modules/xfuture/**/*"
+      "!resources/service"
     ],
     "extraResources": [
-      "node_modules/xfuture/index.js",
-      "node_modules/xfuture/parser.js",
-      "node_modules/xfuture/resources",
-      "channel.json"
+      "channel.json",
+      {
+        "from": "build/service/service-${platform}-${arch}.zip",
+        "to": "service/service.zip"
+      }
     ],
     "nsis": {
       "allowToChangeInstallationDirectory": true,
@@ -87,9 +92,6 @@
       "installerHeaderIcon": "icons/icon.icoo"
     },
     "win": {
-      "extraResources": [
-        "node_modules/xfuture/package/${platform}-${arch}"
-      ],
       "icon": "icons/icon.icns",
       "requestedExecutionLevel": "highestAvailable",
       "target": [
@@ -127,9 +129,6 @@
     },
     "mac": {
       "identity": null,
-      "extraResources": [
-        "node_modules/xfuture/package/${platform}"
-      ],
       "icon": "icons/icon.icns",
       "hardenedRuntime": true,
       "gatekeeperAssess": false,

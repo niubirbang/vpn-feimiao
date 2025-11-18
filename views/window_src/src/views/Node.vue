@@ -1,6 +1,6 @@
 <script setup>
 import Rule from "@/components/proxy/RuleV2.vue";
-import Mode from "@/components/proxy/ModeV2.vue";
+// import Mode from "@/components/proxy/ModeV2.vue";
 import Node from "@/components/proxy/Node.vue";
 import { $OS } from "@/util";
 import { Error } from "@/notification";
@@ -41,7 +41,7 @@ const refreshSubscribe = () => {
     </div> -->
     <div class="proxy">
       <Rule />
-      <Mode v-if="os == 'windows'" />
+      <!-- <Mode v-if="os == 'windows'" /> -->
     </div>
     <div class="nodes">
       <p class="title">节点</p>

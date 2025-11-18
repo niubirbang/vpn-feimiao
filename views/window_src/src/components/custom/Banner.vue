@@ -6,7 +6,6 @@ const load = () => {
   window.box_api
     .listBanner()
     .then((data) => {
-      console.log('****banner', data)
       banners.value = data;
     })
     .catch((err) => {
