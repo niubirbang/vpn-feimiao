@@ -71,7 +71,7 @@ jobs:
 
       - name: Package
         run: |
-          npm run pkg
+          node build/package.js --arch="${{ matrix.arch }}"
 
       - name: Release
         uses: softprops/action-gh-release@v1
