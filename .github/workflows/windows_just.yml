@@ -8,10 +8,13 @@ on:
 jobs:
   release:
     name: Release Windows flow
-    runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false
       matrix:
         os: [windows-latest]
+        arch:
+          - x64
+    runs-on: ${{ matrix.os }}
     env:
       DO_SIGN: ${{ (secrets.WINDOWS_CSC_LINK != '' && secrets.WINDOWS_CSC_KEY_PASSWORD != '') && 1 || 0 }}
       DO_NOTARIZE: ${{ (secrets.WINDOWS_ID != '' && secrets.WINDOWS_ID_PASSWORD != '' && secrets.WINDOWS_TEAM_ID != '') && 1 || 0 }}
@@ -29,8 +32,8 @@ jobs:
         run: |
           npm run install:view:window
           npm run install:box
-          npm run service:download
-          npm run service:build
+          npm run service:download --arch="${{ matrix.arch }}"
+          npm run service:build --arch="${{ matrix.arch }}"
           npm run icons:win
           npm run obfuscate
           npm run channel -- ${{ github.ref_name }}
@@ -45,12 +48,12 @@ jobs:
           CSC_LINK: ${{ secrets.WINDOWS_CSC_LINK }}
           CSC_KEY_PASSWORD: ${{ secrets.WINDOWS_CSC_KEY_PASSWORD }}
         run: |
-          npm run build:box:win
+          npm run build:box:win:${{ matrix.arch }}
 
       - name: Build box without sign
         if: env.DO_SIGN == 0
         run: |
-          npm run build:box:win
+          npm run build:box:win:${{ matrix.arch }}
 
       - name: Notarize box
         if: env.DO_NOTARIZE == 1

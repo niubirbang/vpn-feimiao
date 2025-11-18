@@ -35,8 +35,9 @@
     "install:box": "npm install",
     "dev:box": "electron . LOG_TO_TERMINAL LOG_TO_FILE LOG_LEVEL=DEBUG PAGE_DEBUG PAGE_URL",
     "test:box": "electron . LOG_TO_TERMINAL LOG_LEVEL=DEBUG PAGE_DEBUG",
-    "build:box:win": "electron-builder -p never",
-    "build:box:mac": "electron-builder -p never",
+    "build:box:win:x64": "electron-builder --win --x64 -p never",
+    "build:box:mac:x64": "electron-builder --mac --x64 -p never",
+    "build:box:mac:arm64": "electron-builder --mac --arm64 -p never",
     "pkg": "node build/package.js"
   },
   "author": "",

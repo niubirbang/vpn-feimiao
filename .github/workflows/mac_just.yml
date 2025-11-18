@@ -13,10 +13,14 @@ on:
 jobs:
   release:
     name: Release Mac flow
-    runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false
       matrix:
         os: [macos-latest]
+        arch:
+          - x64
+          - arm64
+    runs-on: ${{ matrix.os }}
     env:
       DO_SIGN: ${{ (secrets.MAC_CSC_LINK != '' && secrets.MAC_CSC_KEY_PASSWORD != '') && 1 || 0 }}
       DO_NOTARIZE: ${{ (secrets.MAC_APPLE_ID != '' && secrets.MAC_APPLE_ID_PASSWORD != '' && secrets.MAC_APPLE_TEAM_ID != '') && 1 || 0 }}
@@ -34,8 +38,8 @@ jobs:
         run: |
           npm run install:view:window
           npm run install:box
-          npm run service:download
-          npm run service:build
+          npm run service:download --arch="${{ matrix.arch }}"
+          npm run service:build --arch="${{ matrix.arch }}"
           npm run icons:mac
           npm run obfuscate
           npm run channel -- ${{ github.ref_name }}
@@ -50,12 +54,12 @@ jobs:
           CSC_LINK: ${{ secrets.MAC_CSC_LINK }}
           CSC_KEY_PASSWORD: ${{ secrets.MAC_CSC_KEY_PASSWORD }}
         run: |
-          npm run build:box:mac
+          npm run build:box:mac:${{ matrix.arch }}
 
       - name: Build box without sign
         if: env.DO_SIGN == 0
         run: |
-          npm run build:box:mac
+          npm run build:box:mac:${{ matrix.arch }}
 
       - name: Notarize box
         if: env.DO_NOTARIZE == 1
