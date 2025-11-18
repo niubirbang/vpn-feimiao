@@ -106,6 +106,15 @@ const build = (platform, arch) => {
   }
 };
 
+const findArg = (key) => {
+  const name = `--${key}=`;
+  const arg = process.argv.find((item) => item.startsWith(name));
+  if (arg) {
+    return arg.replaceAll(name, "") || undefined;
+  }
+  return undefined;
+};
+
 const platform =
   findArg("platform") || process.env.npm_config_platform || process.platform;
 const arch = findArg("arch") || process.env.npm_config_arch || process.arch;
