@@ -101,7 +101,7 @@ const build = (platform, arch) => {
   const installer = installers[`${platform}-${arch}`];
   const asar = asars[`${platform}-${arch}`];
   if (exists(installer) && exists(asar)) {
-    console.log("package win32 arm64");
+    console.log(`package ${platform} ${arch}`);
     build_zip(channel_id, platform, asar, installer, asar);
   }
 };
