@@ -207,7 +207,7 @@ const getConfig = (key) => {
 const getResourceDir = () => {
   let resDir;
   if (!app.isPackaged) {
-    resDir = path.join(__dirname, "../../resources");
+    resDir = path.join(app.getAppPath(), "/resources");
   } else {
     if (app.getAppPath().endsWith("asar")) {
       resDir = process.resourcesPath;
