@@ -82,7 +82,7 @@
     "extraResources": [
       "channel.json",
       {
-        "from": "build/service/service-${platform}-${arch}.zip",
+        "from": "resources/service/service.zip",
         "to": "service/service.zip"
       }
     ],
