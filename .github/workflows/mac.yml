@@ -1,4 +1,8 @@
 name: Release Mac
+
+env:
+  SPACE_ENVOY_SERVICE_DOWNLOAD_TOKEN: ${{ secrets.SPACE_ENVOY_SERVICE_DOWNLOAD_TOKEN }}
+
 on:
   push:
     tags:
