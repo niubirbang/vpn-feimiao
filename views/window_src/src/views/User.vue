@@ -110,7 +110,7 @@ const options = computed(() => {
     {
       name: '注销账号',
       icon: IconClose,
-      hide: !authorized.value ||authorization_type.value === 'device',
+      hide: !authorized.value || authorization_type.value === 'device',
       do: () => {
         router.push('/delete_account')
       },
@@ -261,7 +261,6 @@ onMounted(() => {
 }
 
 .base .left {
-  height: 3.6rem;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;

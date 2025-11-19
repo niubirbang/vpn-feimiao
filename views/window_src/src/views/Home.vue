@@ -17,7 +17,7 @@ const channelHiddenNodes = computed(() => store.state.channel_hidden_nodes);
   <div class="large-full">
     <div class="invite">
       <img src="@/assets/image/invite-btn-bg.png" />
-      <p class="pointer" v-navigate="'/invite'">邀请获取时长</p>
+      <p class="pointer" style="z-index: 3;" v-navigate="'/invite'">邀请获取时长</p>
     </div>
     <div class="plate home">
       <!-- 头部 -->
