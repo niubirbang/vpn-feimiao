@@ -4,7 +4,7 @@
   "name_en": "MH SPEED",
   "app_id": "com.flycat.fast",
   "service_preinstall": true,
-  "service_version": "2.0.4-feimiao03",
+  "service_version": "2.0.4-feimiao04",
   "version": "1.1.2",
   "version_force": false,
   "version_logs": [
